@@ -40,10 +40,10 @@ app.get('/', function (req, res) {
 
 // create a "editor-text" route to update Pusher the latest state of our editor
 app.post('/editor-text', function (req, res) {
+  console.log(req.body);
   if (req.body.text) {
     // send a 'editor-update' event on the 'editor' channel with the editor current state
-    pusher.trigger('editor', 'editor-update', { text: req.body.text, selection: req.body.selection });
-    console.log({ text: req.body.text, selection: req.body.selection });
+    pusher.trigger('editor', 'editor-update', { text: req.body.text, selection: req.body.selection }, req.body.socketId);
     res.status(200).send({ success: true, message: 'editor update broadcasted' });
   } else {
     res.status(400).send({ success: false, message: 'editor update not broadcasted' });
